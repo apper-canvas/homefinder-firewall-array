@@ -1,0 +1,92 @@
+@import "react-toastify/dist/ReactToastify.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .font-display {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+@layer components {
+  .toast-container .Toastify__toast {
+    @apply bg-surface shadow-lg border border-gray-100 text-gray-800 font-medium text-sm rounded-lg;
+    min-height: 48px;
+    font-family: 'Inter', sans-serif;
+  }
+  
+  .toast-container .Toastify__toast--success {
+    @apply bg-primary-50 border-primary-200 text-primary-800;
+  }
+  
+  .toast-container .Toastify__toast--error {
+    @apply bg-red-50 border-red-200 text-red-800;
+  }
+  
+  .toast-container .Toastify__toast--warning {
+    @apply bg-accent-50 border-accent-200 text-accent-800;
+  }
+  
+  .toast-container .Toastify__progress-bar {
+    @apply bg-gradient-to-r from-primary-400 to-primary-500;
+  }
+  
+  .toast-container .Toastify__close-button {
+    @apply text-gray-400 hover:text-gray-600;
+  }
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Smooth transitions */
+* {
+  transition-property: transform, opacity, box-shadow, background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Hover effects */
+.hover-lift {
+  transition: transform 200ms ease-out, box-shadow 200ms ease-out;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #2C5F4F, #D4922F);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
