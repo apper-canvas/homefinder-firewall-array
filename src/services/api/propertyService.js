@@ -147,7 +147,7 @@ class PropertyService {
 
       // Add filters to where conditions
       if (filters.searchQuery) {
-        params.whereGroups = [{
+params.whereGroups = [{
           operator: "OR",
           subGroups: [{
             conditions: [
@@ -386,6 +386,35 @@ class PropertyService {
     return ["for-sale", "for-rent", "sold", "pending"];
   }
 
+// Helper function to safely parse JSON with fallback
+  safeJsonParse(jsonString, fallback) {
+    if (!jsonString || typeof jsonString !== 'string') return fallback;
+    try {
+      return JSON.parse(jsonString);
+    } catch (error) {
+      return fallback;
+    }
+  }
+
+  // Helper function to handle images field (supports both JSON array and plain URL)
+  parseImagesField(imagesField) {
+    if (!imagesField) {
+      return ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'];
+    }
+    
+    if (typeof imagesField === 'string') {
+      // Check if it's a JSON array
+      if (imagesField.trim().startsWith('[')) {
+        const parsed = this.safeJsonParse(imagesField, null);
+        return parsed || [imagesField];
+      }
+      // Single URL string
+      return [imagesField];
+    }
+    
+    return Array.isArray(imagesField) ? imagesField : [imagesField];
+  }
+
   transformFromDB(dbProperty) {
     try {
       return {
@@ -393,32 +422,26 @@ class PropertyService {
         title: dbProperty.title_c || '',
         price: dbProperty.price_c || 0,
         location: {
-          address: dbProperty.location_address_c || '',
+address: dbProperty.location_address_c || '',
           city: dbProperty.location_city_c || '',
           state: dbProperty.location_state_c || '',
           zip: dbProperty.location_zip_c || '',
-          coordinates: dbProperty.location_coordinates_c ? 
-            JSON.parse(dbProperty.location_coordinates_c) : 
-            { lat: 47.6062, lng: -122.3321 }
+          coordinates: this.safeJsonParse(dbProperty.location_coordinates_c, { lat: 47.6062, lng: -122.3321 })
         },
         bedrooms: dbProperty.bedrooms_c || 0,
         bathrooms: dbProperty.bathrooms_c || 0,
         squareFeet: dbProperty.square_feet_c || 0,
         propertyType: dbProperty.property_type_c || '',
         status: dbProperty.status_c || '',
-        images: dbProperty.images_c ? 
-          JSON.parse(dbProperty.images_c) : 
-          ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'],
+        images: this.parseImagesField(dbProperty.images_c),
         description: dbProperty.description_c || '',
-        features: dbProperty.features_c ? 
-          JSON.parse(dbProperty.features_c) : 
-          [],
+        features: this.safeJsonParse(dbProperty.features_c, []),
         yearBuilt: dbProperty.year_built_c || 2020,
         lotSize: dbProperty.lot_size_c || 0,
         garage: dbProperty.garage_c || 0,
         listingDate: dbProperty.listing_date_c || new Date().toISOString(),
         isFavorite: false
-      };
+};
     } catch (error) {
       console.error("Error transforming property data:", error);
       return {
