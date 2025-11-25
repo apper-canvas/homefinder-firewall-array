@@ -402,11 +402,13 @@ params.whereGroups = [{
       return ['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=800&h=600&fit=crop'];
     }
     
-    if (typeof imagesField === 'string') {
+if (typeof imagesField === 'string') {
       // Check if it's a JSON array
-      if (imagesField.trim().startsWith('[')) {
+      if (imagesField.trim().startsWith('[') && imagesField.trim().endsWith(']')) {
         const parsed = this.safeJsonParse(imagesField, null);
-        return parsed || [imagesField];
+        if (parsed && Array.isArray(parsed)) {
+          return parsed;
+        }
       }
       // Single URL string
       return [imagesField];
