@@ -1,11 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { cn } from "@/utils/cn";
+import { useSelector } from "react-redux";
+import { useAuth } from "@/layouts/Root";
+import propertyService from "@/services/api/propertyService";
 import ApperIcon from "@/components/ApperIcon";
 import Button from "@/components/atoms/Button";
+import Badge from "@/components/atoms/Badge";
 import SearchBar from "@/components/molecules/SearchBar";
-import propertyService from "@/services/api/propertyService";
+import { cn } from "@/utils/cn";
 
+// Logout Button Component
+const LogoutButton = () => {
+  const { logout } = useAuth();
+  const { user } = useSelector(state => state.user);
+
+  if (!user) return null;
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      icon="LogOut"
+      onClick={logout}
+    >
+      Logout
+    </Button>
+  );
+};
 const Header = ({ onSearch = () => {}, searchQuery = "" }) => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -141,7 +162,7 @@ const Header = ({ onSearch = () => {}, searchQuery = "" }) => {
             </div>
 
             {/* Call to Action */}
-            <div className="hidden md:block">
+<div className="hidden md:block flex gap-2">
               <Button
                 variant="accent"
                 size="sm"
@@ -153,6 +174,7 @@ const Header = ({ onSearch = () => {}, searchQuery = "" }) => {
               >
                 List Property
               </Button>
+              <LogoutButton />
             </div>
           </nav>
         </div>

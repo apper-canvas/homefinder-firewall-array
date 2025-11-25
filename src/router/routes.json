@@ -1,0 +1,87 @@
+{
+  "/": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Homepage is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/property/:id": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Property details are public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/map": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Map view is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/favorites": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "User must be logged in to view favorites",
+            "rule": "authenticated"
+          }
+        ]
+      },
+      "redirectOnDeny": "/login"
+    }
+  },
+  "/compare": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Compare page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/login": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Login page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  },
+  "/signup": {
+    "allow": {
+      "when": {
+        "conditions": [
+          {
+            "label": "Signup page is public",
+            "rule": "public"
+          }
+        ]
+      }
+    }
+  }
+}
